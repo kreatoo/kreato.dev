@@ -8,14 +8,14 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "🪴 Quartz 4.0",
+    pageTitle: "Kreato's site",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "kreato.dev",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
     theme: {
@@ -26,28 +26,26 @@ const config: QuartzConfig = {
         body: "Source Sans Pro",
         code: "IBM Plex Mono",
       },
-      colors: {
-        lightMode: {
-          light: "#faf8f8",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
-          tertiary: "#84a59d",
+    colors: {
+        lightMode: { // Catpuccin Latte
+          light: "#eff1f5", // Latte Base
+          lightgray: "#ccd0da", // Latte Surface0
+          gray: "#8c8fa1", // Latte Overlay1
+          darkgray: "#6c6f85", // Latte Subtext0
+          dark: "#4c4f69", // Latte Text
+          secondary: "#1e66f5", // Latte Blue
+          tertiary: "#7287fd", // Latte Lavender
           highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
         },
-        darkMode: {
-          light: "#161618",
-          lightgray: "#393639",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
+        darkMode: { // Catpuccin Mocha/Frappé
+          light: "#11111b", // Mocha Crust
+          lightgray: "#313244", // Mocha Surface0
+          gray: "#7f849c", // Mocha Overlay1
+          darkgray: "#a6adc8", // Mocha Subtext0
+          dark: "#c6d0f5", // Frappé Text
+          secondary: "#8caaee", // Frappé Blue
+          tertiary: "#babbf1", // Frappé Lavender
           highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
         },
       },
     },
@@ -58,6 +56,7 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "filesystem"],
       }),
+      Plugin.Latex({ renderEngine: "katex" }),
       Plugin.SyntaxHighlighting({
         theme: {
           light: "github-light",
@@ -70,7 +69,6 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
