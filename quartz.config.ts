@@ -11,9 +11,9 @@ const config: QuartzConfig = {
     pageTitle: "Kreato's site",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
+    /*analytics: {
       provider: "plausible",
-    },
+    },*/
     locale: "en-US",
     baseUrl: "kreato.dev",
     ignorePatterns: ["private", "templates", ".obsidian"],
