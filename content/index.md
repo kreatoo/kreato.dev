@@ -31,7 +31,7 @@ I use Fedora on my computer, with these applications;
 Software I use changes overtime and this list may not be up-to-date.
 
 # Contact
-Contact me Discord (@kreatoo) or [on email](mailto:kreato@kreato.dev).
+Contact me Discord (@kreatoo), on my [Mattermost instance](https://chat.kreato.dev/signup_user_complete/?id=peefn86a3f88up65ij3b4zozfe&md=link&sbr=fa) or [on email](mailto:kreato@kreato.dev)
 
 # Blogs
 See [[Categories]]
