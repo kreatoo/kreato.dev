@@ -11,9 +11,6 @@ import { JSResource, CSSResource } from "../../util/resources"
 import calloutScript from "../../components/scripts/callout.inline.ts"
 // @ts-ignore
 import checkboxScript from "../../components/scripts/checkbox.inline.ts"
-// @ts-ignore
-import mermaidExtensionScript from "../../components/scripts/mermaid.inline.ts"
-import mermaidStyle from "../../components/styles/mermaid.inline.scss"
 import { FilePath, pathToRoot, slugTag, slugifyFilePath } from "../../util/path"
 import { toHast } from "mdast-util-to-hast"
 import { toHtml } from "hast-util-to-html"
@@ -156,7 +153,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
           src = src.toString()
         }
 
-        src = src.replace(commentRegex, "")
+        src = (src as string).replace(commentRegex, "")
       }
 
       // pre-transform blockquotes
@@ -165,7 +162,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
           src = src.toString()
         }
 
-        src = src.replace(calloutLineRegex, (value) => {
+        src = (src as string).replace(calloutLineRegex, (value) => {
           // force newline after title of callout
           return value + "\n> "
         })
@@ -178,7 +175,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
         }
 
         // replace all wikilinks inside a table first
-        src = src.replace(tableRegex, (value) => {
+        src = (src as string).replace(tableRegex, (value) => {
           // escape all aliases and headers in wikilinks inside a table
           return value.replace(tableWikilinkRegex, (_value, raw) => {
             // const [raw]: (string | undefined)[] = capture
@@ -192,7 +189,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
         })
 
         // replace all other wikilinks
-        src = src.replace(wikilinkRegex, (value, ...capture) => {
+        src = (src as string).replace(wikilinkRegex, (value, ...capture) => {
           const [rawFp, rawHeader, rawAlias]: (string | undefined)[] = capture
 
           const [fp, anchor] = splitAnchor(`${rawFp ?? ""}${rawHeader ?? ""}`)
@@ -513,9 +510,10 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
 
       if (opts.mermaid) {
         plugins.push(() => {
-          return (tree: Root, _file) => {
+          return (tree: Root, file) => {
             visit(tree, "code", (node: Code) => {
               if (node.lang === "mermaid") {
+                file.data.hasMermaidDiagram = true
                 node.data = {
                   hProperties: {
                     className: ["mermaid"],
@@ -813,19 +811,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
         })
       }
 
-      if (opts.mermaid) {
-        js.push({
-          script: mermaidExtensionScript,
-          loadTime: "afterDOMReady",
-          moduleType: "module",
-          contentType: "inline",
-        })
-        css.push({
-          content: mermaidStyle,
-          inline: true,
-        })
-      }
-
       return { js, css }
     },
   }
@@ -835,5 +820,6 @@ declare module "vfile" {
   interface DataMap {
     blocks: Record<string, Element>
     htmlAst: HtmlRoot
+    hasMermaidDiagram: boolean | undefined
   }
 }
